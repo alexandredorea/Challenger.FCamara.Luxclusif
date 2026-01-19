@@ -8,21 +8,15 @@ namespace Challenger.FCamara.Luxclusif.UnitTests.Application.Features.Categories
 
 public class CreateCategoryCommandHandlerTests : DatabaseTestBase
 {
-    private readonly CreateCategoryCommandHandler _handler;
-
-    public CreateCategoryCommandHandlerTests()
-    {
-        _handler = new CreateCategoryCommandHandler(Context);
-    }
-
     [Fact]
     public async Task Handle_WithValidCommand_ShouldCreateCategorySuccessfully()
     {
         // Arrange
+        var handler = new CreateCategoryCommandHandler(Context);
         var command = new CreateCategoryCommand("Electronics", "ELEC", null);
 
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
@@ -48,10 +42,11 @@ public class CreateCategoryCommandHandlerTests : DatabaseTestBase
         Context.Categories.Add(parentCategory);
         await Context.SaveChangesAsync();
 
+        var handler = new CreateCategoryCommandHandler(Context);
         var command = new CreateCategoryCommand("Electronics", "ELEC", parentCategory.Id);
 
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await handler.Handle(command, CancellationToken.None);
 
         // Assert
         result.Success.Should().BeTrue();
@@ -65,12 +60,13 @@ public class CreateCategoryCommandHandlerTests : DatabaseTestBase
     public async Task Handle_WithMultipleCategories_ShouldCreateAll()
     {
         // Arrange
+        var handler = new CreateCategoryCommandHandler(Context);
         var command1 = new CreateCategoryCommand("Electronics", "ELEC", null);
         var command2 = new CreateCategoryCommand("Electronics", "ELEC", null);
 
         // Act
-        await _handler.Handle(command1, CancellationToken.None);
-        await _handler.Handle(command2, CancellationToken.None);
+        await handler.Handle(command1, CancellationToken.None);
+        await handler.Handle(command2, CancellationToken.None);
 
         // Assert
         var categories = Context.Categories.ToList();

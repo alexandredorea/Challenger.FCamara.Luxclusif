@@ -17,7 +17,7 @@ public sealed class Email
         email = email.ToLowerInvariant().Trim();
 
         if (!IsValidEmail(email))
-            throw new ArgumentException("E-mail com formato inválido", nameof(email));
+            throw new ArgumentException("E-mail inválido", nameof(email));
 
         return new Email(email);
     }

@@ -15,6 +15,7 @@ public class CategoriesController(IMediator mediator) : ControllerBase
     /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(Result<CreateCategoryResponse>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Result<CreateCategoryResponse>), StatusCodes.Status409Conflict)]
     [ProducesResponseType(typeof(Result<CreateCategoryResponse>), StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(typeof(Result<CreateCategoryResponse>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> CreateCategory(
@@ -22,6 +23,10 @@ public class CategoriesController(IMediator mediator) : ControllerBase
         CancellationToken cancellationToken)
     {
         var result = await mediator.Send(command, cancellationToken);
+
+        if (!result.Success)
+            return Conflict(result);
+
         return CreatedAtAction(actionName: nameof(CreateCategory), value: result);
     }
 
@@ -30,7 +35,6 @@ public class CategoriesController(IMediator mediator) : ControllerBase
     /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(PagedResult<CategoryDto>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(PagedResult<CategoryDto>), StatusCodes.Status422UnprocessableEntity)]
     [ProducesResponseType(typeof(PagedResult<CategoryDto>), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> ListCategories(GetCategoriesQuery request, CancellationToken cancellationToken)
     {

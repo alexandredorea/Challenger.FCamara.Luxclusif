@@ -24,8 +24,7 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
         {
             RuleFor(x => x.Shortcode)
                 .MaximumLength(10).WithMessage("O Shortcode não pode exceder 10 caracteres")
-                .Matches("^[A-Z0-9]+$").WithMessage("O Shortcode deve conter apenas letras e números")
-                .MustAsync(ShortcodeMustBeUnique).WithMessage("Já existe uma categoria com este shortcode");
+                .Matches("^[A-Z0-9]+$").WithMessage("O Shortcode deve conter apenas letras e números");
         });
 
         When(x => x.ParentCategoryId.HasValue, () =>
@@ -44,14 +43,5 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
 
         return await _context.Categories
             .AnyAsync(c => c.Id == parentCategoryId.Value, cancellationToken);
-    }
-
-    // Validar se o shortcode já existe
-    private async Task<bool> ShortcodeMustBeUnique(string shortcode, CancellationToken cancellationToken)
-    {
-        var exists = await _context.Categories
-            .AnyAsync(c => c.Shortcode == shortcode.ToUpperInvariant(), cancellationToken);
-
-        return !exists;
     }
 }
