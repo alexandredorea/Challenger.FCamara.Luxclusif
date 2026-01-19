@@ -13,6 +13,9 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/Challenger.FCamara.Luxclusif.Api/Challenger.FCamara.Luxclusif.Api.csproj", "src/Challenger.FCamara.Luxclusif.Api/"]
+COPY ["src/Challenger.FCamara.Luxclusif.Application/Challenger.FCamara.Luxclusif.Application.csproj", "src/Challenger.FCamara.Luxclusif.Application/"]
+COPY ["src/Challenger.FCamara.Luxclusif.Domain/Challenger.FCamara.Luxclusif.Domain.csproj", "src/Challenger.FCamara.Luxclusif.Domain/"]
+COPY ["src/Challenger.FCamara.Luxclusif.Infrastructure/Challenger.FCamara.Luxclusif.Infrastructure.csproj", "src/Challenger.FCamara.Luxclusif.Infrastructure/"]
 RUN dotnet restore "./src/Challenger.FCamara.Luxclusif.Api/Challenger.FCamara.Luxclusif.Api.csproj"
 COPY . .
 WORKDIR "/src/src/Challenger.FCamara.Luxclusif.Api"

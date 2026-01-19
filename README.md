@@ -8,7 +8,7 @@ O primeiro passo é criar uma clone deste repositório. Siga os passos abaixo pa
 
 Abra seu client do git e siga os comandos:
 ```sh
-git clone --bare https://github.com/bonifiq/prova-backend.git
+git clone https://github.com/alexandredorea/Challenger.FCamara.Luxclusif.git
 ```
 
 ## Conhecendo o projeto
@@ -25,7 +25,7 @@ dotnet tool install --global dotnet-ef
 Agora, pode rodar as migrations de fato:
 
 ```csharp
-dotnet ef database update --project src/ProvaPub.Infrastructure/ProvaPub.Infrastructure.csproj --startup-project src/ProvaPub.Api/ProvaPub.Api.csproj
+dotnet ef database update --project .\src\Challenger.FCamara.Luxclusif.Infrastructure\Challenger.FCamara.Luxclusif.Infrastructure.csproj --startup-project .\src\Challenger.FCamara.Luxclusif.Api\Challenger.FCamara.Luxclusif.Api.csproj
 ```
 
 Pronto, o projeto já criou as tabelas e alguns registros no seu localDB.

@@ -1,4 +1,9 @@
 <Solution>
+  <Folder Name="/solution items/">
+    <Project Path="docker-compose.dcproj">
+      <Build />
+    </Project>
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/Challenger.FCamara.Luxclusif.Api/Challenger.FCamara.Luxclusif.Api.csproj" Id="0fd061fa-7c26-400a-85ea-7e74a76a4277" />
     <Project Path="src/Challenger.FCamara.Luxclusif.Application/Challenger.FCamara.Luxclusif.Application.csproj" Id="4c962b86-b576-4b08-9d65-ed8c89072873" />

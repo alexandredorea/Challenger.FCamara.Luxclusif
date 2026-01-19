@@ -1,0 +1,6 @@
+services:
+  challenger.fcamara.luxclusif.api:
+    image: ${DOCKER_REGISTRY-}challengerfcamaraluxclusifapi
+    build:
+      context: .
+      dockerfile: src/Challenger.FCamara.Luxclusif.Api/Dockerfile

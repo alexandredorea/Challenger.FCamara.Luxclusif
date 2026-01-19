@@ -41,4 +41,59 @@ public class ProductsController(IMediator mediator) : ControllerBase
 
         return Ok(result);
     }
+
+    /// <summary>
+    /// Gets a product by ID
+    /// </summary>
+    [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetProductById(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetProductByIdQuery(id), cancellationToken);
+
+        if (!result.Success)
+        {
+            return NotFound(result);
+        }
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Changes the status of a product
+    /// </summary>
+    /// <remarks>
+    /// </remarks>
+    [HttpPatch("{id:guid}/status")]
+    [ProducesResponseType(typeof(object), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(object), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(object), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> ChangeProductStatus(
+        Guid id,
+        [FromBody] ChangeProductStatusCommand command,
+        CancellationToken cancellationToken)
+    {
+        command.SetProductId(id);
+        var result = await mediator.Send(command, cancellationToken);
+
+        if (!result.Success)
+        {
+            var statusCode = result.Error.Any(e => e.Code == "NOT_FOUND")
+                ? StatusCodes.Status404NotFound
+                : StatusCodes.Status400BadRequest;
+
+            return StatusCode(statusCode, new
+            {
+                result.Success,
+                result.Message,
+                result.Data,
+                result.Error
+            });
+        }
+
+        return Ok(result);
+    }
 }
