@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Challenger.FCamara.Luxclusif.Api/Challenger.FCamara.Luxclusif.Api.csproj" Id="0fd061fa-7c26-400a-85ea-7e74a76a4277" />
+    <Project Path="src/Challenger.FCamara.Luxclusif.Application/Challenger.FCamara.Luxclusif.Application.csproj" Id="4c962b86-b576-4b08-9d65-ed8c89072873" />
+    <Project Path="src/Challenger.FCamara.Luxclusif.Domain/Challenger.FCamara.Luxclusif.Domain.csproj" Id="51addf43-adb4-47b5-a624-8fac2bcd39d7" />
+    <Project Path="src/Challenger.FCamara.Luxclusif.Infrastructure/Challenger.FCamara.Luxclusif.Infrastructure.csproj" Id="b6a162b9-37af-46e3-97d4-3ca98c2f76b3" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Challenger.FCamara.Luxclusif.UnitTests/Challenger.FCamara.Luxclusif.UnitTests.csproj" Id="2b0b578e-2fdd-4918-83ed-443071a0ce9a" />
+  </Folder>
+</Solution>
