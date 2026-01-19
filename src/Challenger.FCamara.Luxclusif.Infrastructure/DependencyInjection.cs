@@ -1,4 +1,6 @@
 ﻿using Challenger.FCamara.Luxclusif.Application.Common.Persistences;
+using Challenger.FCamara.Luxclusif.Application.ExternalServices.Interfaces;
+using Challenger.FCamara.Luxclusif.Infrastructure.ExternalServices;
 using Challenger.FCamara.Luxclusif.Infrastructure.Persistences.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,46 +34,21 @@ public static class DependencyInjection
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
+        // External Services
+        services.AddHttpClient<IWmsService, WmsService>(client =>
+        {
+            client.BaseAddress = new Uri(configuration["ExternalServices:WmsApiUrl"] ?? "https://api.wms.com");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
+
+        services.AddHttpClient<IAuditService, AuditService>(client =>
+        {
+            client.BaseAddress = new Uri(configuration["ExternalServices:AuditApiUrl"] ?? "https://api.auditlog.com");
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
+
+        services.AddScoped<IEmailService, EmailService>();
+
         return services;
     }
-
-    //public static IHostApplicationBuilder AddApplication(this IHostApplicationBuilder builder)
-    //{
-    //    var assembly = typeof(DependencyInjection).Assembly;
-    //    builder.AddValidationsBusinessRule(assembly);
-    //    builder.AddMediatorPattern(assembly);
-    //    builder.AddStrategyPattern();
-    //    builder.AddFactoryMethodPattern();
-    //    return builder;
-    //}
-
-    //private static void AddValidationsBusinessRule(this IHostApplicationBuilder builder, Assembly assembly)
-    //{
-    //    builder.Services.AddValidatorsFromAssembly(assembly);
-    //    builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-    //    builder.Services.AddSingleton<IDateTimeProvider, BrazilDateTimeProvider>();
-    //}
-
-    //private static void AddMediatorPattern(this IHostApplicationBuilder builder, Assembly assembly)
-    //{
-    //    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
-    //}
-
-    //private static void AddStrategyPattern(this IHostApplicationBuilder builder)
-    //{
-    //    builder.Services.AddScoped<IPaymentStrategy, PixPaymentStrategy>();
-    //    builder.Services.AddScoped<IPaymentStrategy, CreditCardPaymentStrategy>();
-    //    builder.Services.AddScoped<IPaymentStrategy, PaypalPaymentStrategy>();
-    //}
-
-    //private static void AddFactoryMethodPattern(this IHostApplicationBuilder builder)
-    //{
-    //    builder.Services.AddScoped<IPaymentFactory, PaymentFactory>();
-    //}
-
-    //public static IApplicationBuilder UseExceptionHandlingApplication(this IApplicationBuilder app)
-    //{
-    //    app.UseMiddleware<ExceptionHandlingMiddleware>();
-    //    return app;
-    //}
 }
